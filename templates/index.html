@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciar Pixels</title>
+</head>
+<body>
+    <h1>Meus Pixels</h1>
+    <ul>
+        {% for pixel in pixels %}
+            <li>
+                <h2>Status do Pixel: {{ pixel.name }}</h2>
+                <p>Link de Redirecionamento: {{ pixel.redirect_link }}</p>
+                <p>Código do Pixel: {{ pixel.pixel_code }}</p>
+                <form action="{{ url_for('toggle_pixel', pixel_id=pixel.id) }}" method="POST">
+                    <button type="submit">{{ 'Ativar' if not pixel.is_active else 'Desativar' }}</button>
+                </form>
+                <!-- Adicione outras informações conforme necessário -->
+            </li>
+        {% else %}
+            <p>Nenhum pixel encontrado.</p>
+        {% endfor %}
+    </ul>
+
+    <h2>Criar Novo Pixel</h2>
+    <form method="POST">
+        <input type="text" name="name" placeholder="Nome do Pixel" required>
+        <input type="text" name="pixel_code" placeholder="Código do Pixel" required>
+        <input type="url" name="redirect_link" placeholder="Link de Redirecionamento" required>
+        <label><input type="checkbox" name="track_pageview"> Rastrear Visualização</label>
+        <label><input type="checkbox" name="track_purchase"> Rastrear Compra</label>
+        <button type="submit">Criar Pixel</button>
+    </form>
+</body>
+</html>
